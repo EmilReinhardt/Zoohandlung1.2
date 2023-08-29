@@ -109,7 +109,7 @@ public class ZoohandlungController implements Initializable {
             }
         }else{
             tierLabel2.setText("");
-            tierLabel3.setText("");
+            tierLabel3.setText("a");
         }
 
 
