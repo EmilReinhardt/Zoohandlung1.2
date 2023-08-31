@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -22,30 +23,31 @@
                      <content>
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="347.0" prefWidth="325.0">
                               <children>
-                                 <TextField layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="hundName" layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font></TextField>
-                                 <TextField layoutX="140.0" layoutY="94.0" prefHeight="17.0" prefWidth="124.0">
+                                 <TextField fx:id="hundPreis" layoutX="140.0" layoutY="94.0" prefHeight="17.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hund Rasse:" wrappingWidth="65.66665649414062" />
                                  <Text layoutX="50.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hund Name:" />
-                                 <Button layoutX="116.0" layoutY="268.0" mnemonicParsing="false" text="Hund erstellen" />
+                                 <Button layoutX="116.0" layoutY="268.0" mnemonicParsing="false" onAction="#onNeuerHund" text="Hund erstellen" />
                                  <Text layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hund Alter:" />
-                                 <TextField layoutX="140.0" layoutY="63.0" prefHeight="17.0" prefWidth="124.0">
+                                 <TextField fx:id="hundAlter" layoutX="140.0" layoutY="63.0" prefHeight="17.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hund Preis:" />
-                                 <TextField layoutX="140.0" layoutY="124.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="hundRasse" layoutX="140.0" layoutY="124.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
+                                 <Label fx:id="ungueltigHund" alignment="CENTER" layoutX="103.0" layoutY="250.0" prefHeight="17.0" prefWidth="119.0" textAlignment="CENTER" textFill="RED" />
                               </children>
                            </AnchorPane>
                      </content>
@@ -54,23 +56,23 @@
                      <content>
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                 <TextField layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="katzeName" layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
-                                 <TextField layoutX="140.0" layoutY="63.0" prefHeight="17.0" prefWidth="124.0">
+                                 <TextField fx:id="katzeAlter" layoutX="140.0" layoutY="63.0" prefHeight="17.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="45.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.66665649414062" />
-                                 <TextField layoutX="140.0" layoutY="94.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="katzePreis" layoutX="140.0" layoutY="94.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
-                                 <TextField layoutX="140.0" layoutY="124.0" prefHeight="17.0" prefWidth="124.0">
+                                 <TextField fx:id="katzeRasse" layoutX="140.0" layoutY="124.0" prefHeight="17.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
@@ -79,7 +81,8 @@
                                  <Text layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Katze Alter:" wrappingWidth="61.8828125" />
                                  <Text layoutX="50.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Katze Preis:" />
                                  <Text layoutX="50.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Katze Rasse:" wrappingWidth="66.46478271484375" />
-                                 <Button layoutX="116.0" layoutY="268.0" mnemonicParsing="false" text="Katze erstellen" />
+                                 <Button fx:id="katzeErstellen" layoutX="116.0" layoutY="268.0" mnemonicParsing="false" onAction="#onNeueKatze" text="Katze erstellen" />
+                                 <Label fx:id="ungueltigKatze" alignment="CENTER" layoutX="103.0" layoutY="250.0" prefHeight="17.0" prefWidth="119.0" textAlignment="CENTER" textFill="RED" />
                               </children></AnchorPane>
                      </content>
                    </Tab>
@@ -87,40 +90,41 @@
                        <content>
                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                 <TextField layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="schlangeName" layoutX="140.0" layoutY="34.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange Name:" />
-                                 <TextField layoutX="140.0" layoutY="63.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="schlangeAlter" layoutX="140.0" layoutY="63.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange Alter:" />
                                  <Text layoutX="50.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange Preis:" wrappingWidth="86.24151611328125" />
-                                 <TextField layoutX="140.0" layoutY="94.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="schlangePreis" layoutX="140.0" layoutY="94.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange Rasse:" wrappingWidth="86.24151611328125" />
-                                 <TextField layoutX="140.0" layoutY="124.0" prefHeight="16.0" prefWidth="124.0">
+                                 <TextField fx:id="schlangeRasse" layoutX="140.0" layoutY="124.0" prefHeight="16.0" prefWidth="124.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange Länge:" wrappingWidth="86.24151611328125" />
-                                 <TextField layoutX="140.0" layoutY="153.0" prefHeight="22.0" prefWidth="99.0">
+                                 <TextField fx:id="schlangeLaenge" layoutX="140.0" layoutY="153.0" prefHeight="22.0" prefWidth="99.0">
                                     <font>
                                        <Font size="10.0" />
                                     </font>
                                  </TextField>
                                  <Text layoutX="50.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schlange giftig:" wrappingWidth="86.24151611328125" />
-                                 <CheckBox layoutX="140.0" layoutY="187.0" mnemonicParsing="false" />
-                                 <Button layoutX="107.0" layoutY="268.0" mnemonicParsing="false" text="Schlange erstellen" />
+                                 <CheckBox fx:id="schlangeGiftig" layoutX="140.0" layoutY="187.0" mnemonicParsing="false" />
+                                 <Button fx:id="schlangeErstellen" layoutX="107.0" layoutY="268.0" mnemonicParsing="false" onAction="#onNeueSchlange" text="Schlange erstellen" />
                                  <Text layoutX="245.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cm" wrappingWidth="38.24151611328125" />
+                                 <Label fx:id="ungueltigSchlange" alignment="CENTER" layoutX="103.0" layoutY="250.0" prefHeight="17.0" prefWidth="119.0" textAlignment="CENTER" textFill="RED" />
                               </children>
                            </AnchorPane>
                        </content>

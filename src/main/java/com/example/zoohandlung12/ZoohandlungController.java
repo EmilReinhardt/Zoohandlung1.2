@@ -30,15 +30,22 @@ public class ZoohandlungController implements Initializable {
     private Label tierLabel2;
     @FXML
     private Label tierLabel3;
+    private TreeItem<String> rootItem = new TreeItem<>("Tiere");
+
+
 
     ZoohandlungManager manager = new ZoohandlungManager();
     private Tier[] tiere = ZoohandlungManager.getTiere();
     private String[] tierNamen = new String[tiere.length];
     private Tier selectedTier;
 
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        TreeItem<String> rootItem = new TreeItem<>("Tiere");
+
 
         for(int i = 0; i < tiere.length; i++){
             if(tiere[i]!=null) {
@@ -52,6 +59,21 @@ public class ZoohandlungController implements Initializable {
         treeView.setRoot(rootItem);
         treeView.setShowRoot(false);
     }
+
+    @FXML
+    protected void aktulisiereTree(){
+        rootItem.getChildren().clear();
+        tiere = ZoohandlungManager.getTiere();
+        tierNamen = new String[tiere.length];
+
+        rootItem.getChildren().clear();
+        for(int i = 0; i < tiere.length; i++){
+                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName());
+                rootItem.getChildren().add(tierItem);
+                tierNamen[i] = tiere[i].getName();
+        }
+    }
+
 
 
 
@@ -75,10 +97,10 @@ public class ZoohandlungController implements Initializable {
     public void selectItem(){
 
         TreeItem<String> item = (TreeItem<String>) treeView.getSelectionModel().getSelectedItem();
+        //System.out.println(item.getValue().substring(item.getValue().indexOf(" ")+1));
         selectedTier = tiere[findIndexString(tierNamen,item.getValue())];
         displayTier(selectedTier);
-        //System.out.println(item.getValue());
-        //System.out.println(tiere[findIndexString(tierNamen,item.getValue())].getAlter());
+
 
 
     }
@@ -109,8 +131,10 @@ public class ZoohandlungController implements Initializable {
             }
         }else{
             tierLabel2.setText("");
-            tierLabel3.setText("a");
+            tierLabel3.setText("");
         }
+
+
 
 
     }
