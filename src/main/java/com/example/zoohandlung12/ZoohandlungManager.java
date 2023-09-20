@@ -6,11 +6,13 @@ import java.util.Arrays;
 
 public class ZoohandlungManager {
     private Zoohandlung zoo = new Zoohandlung();
-
-
-
+    private static int sortierArt = 0;//0 = normal, 1 = alter, 2 = preis, 3 = name
+    private static int suchArt = 0;//0 = alle, 1 = name, 2 = alter, 3 = preis, 4 = rasse
     private static Tier[] tiere = new Tier[6];
-    private Pfleger[] pfleger = new Pfleger[1];
+    private static Tier[] displayTiere;
+    private static Pfleger[] pfleger = new Pfleger[2];
+    private static Pfleger[] displayPfleger = pfleger.clone();
+    private static char[] alphabet = "aäbcdefghijklmnoöpqrstuüvwxyz".toCharArray();
 
     public ZoohandlungManager(){
 
@@ -21,8 +23,11 @@ public class ZoohandlungManager {
         tiere[3] = new Hund("Kalle",11,1200,"Golden Retriever");
         tiere[4] = new Schlange("Fred",5,100,"Königs Python",12,false);
         tiere[5] = new Schlange("Klaus",5,100,"Klapperschlange",12,true);
+        displayTiere = tiere.clone();
 
         pfleger[0] = new Pfleger("Hans",true);
+        pfleger[1] = new Pfleger("Kristoph",true);
+        displayPfleger = pfleger.clone();
 
 
     }
@@ -30,20 +35,129 @@ public class ZoohandlungManager {
     public static Tier[] getTiere() {
         return tiere.clone();
     }
+    public static Tier[] getDisplayTiere() {
+        return displayTiere.clone();
+    }
+    public static int getSortierArt() {return sortierArt;}
+    public static void setSortierArt(int sortierArt) {ZoohandlungManager.sortierArt = sortierArt;}
+    public static Pfleger[] getDiplayPfleger(){return displayPfleger.clone();}
+    public static int getSuchArt() {return suchArt;}
+    public static void setSuchArt(int suchArt) {ZoohandlungManager.suchArt = suchArt;}
 
     public static void addTiere(Tier tier){
         tiere = Arrays.copyOf(tiere, tiere.length+1);
         tiere[tiere.length-1] = tier;
+        displayTiere = tiere.clone();
     }
 
     public static void removeTier(Tier tier){
         Tier[] tiereNeu = new Tier[tiere.length-1];
-        int zaehler = 6;
+        int zaehler = 0;
         for(Tier tier2 : tiere){
-            if(!tier2.equals(tier)){
+            if(!tier2.equals(tier)) {
                 tiereNeu[zaehler] = tier2;
                 zaehler++;
             }
         }
+        tiere = tiereNeu;
+        displayTiere = tiere.clone();
     }
+
+    public static void sortAlter(){
+        sortOriginal();
+        for(int i = 0;i<displayTiere.length;i++){
+            int youngest = i;
+            for(int j = i; j < displayTiere.length-1;j++) {
+                if (displayTiere[youngest].getAlter() > displayTiere[j + 1].getAlter()) {
+                    youngest = j + 1;
+                }
+            }
+            tausche(i,youngest);
+        }
+    }
+
+    public static void sortPreis(){
+        sortOriginal();
+        for(int i = 0;i<displayTiere.length;i++){
+            int cheapest = i;
+            for(int j = i; j < displayTiere.length-1;j++) {
+                if (displayTiere[cheapest].getPreis() > displayTiere[j + 1].getPreis()) {
+                    cheapest = j + 1;
+                }
+            }
+            tausche(i,cheapest);
+        }
+    }
+
+    public static void sortName(){
+        sortOriginal();
+        for(int i = 0;i<displayTiere.length;i++){
+            int first = i;
+            for(int j = i; j < displayTiere.length-1;j++) {
+                if (findeAlphabet(displayTiere[first].getName().toLowerCase().charAt(0)) > findeAlphabet(tiere[j+1].getName().toLowerCase().charAt(0))) {
+                    first = j + 1;
+                }
+            }
+            tausche(i,first);
+        }
+    }
+
+    public static void sortOriginal(){
+        displayTiere = tiere.clone();
+    }
+
+    public static void suchen(String x){
+        Tier[] sucheTiere = new Tier[0];
+        if(suchArt==0){
+            for(int i = 0; i < tiere.length; i++) {
+                if (Integer.toString(tiere[i].getAlter()).equals(x)) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                } else if (Integer.toString((int) tiere[i].getPreis()).equals(x)) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                } else if (tiere[i].getName().toLowerCase().contains(x.toLowerCase())) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                } else if (tiere[i].getRasse().toLowerCase().contains(x.toLowerCase())) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                } else if (tiere[i].getTyp().toLowerCase().contains(x.toLowerCase())) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                }
+            }
+        }else if(suchArt == 1){
+            for(int i = 0; i < tiere.length; i++) {
+                if (tiere[i].getName().toLowerCase().contains(x.toLowerCase())) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                }
+            }
+        }else if(suchArt == 2){
+            sortAlter();
+
+
+        }
+        displayTiere = sucheTiere.clone();
+    }
+
+    public static Tier getDisplayTier(int x){
+        return displayTiere[x];
+    }
+    private static void tausche(int i, int j){
+        Tier zwischen = displayTiere[i];
+        displayTiere[i] = displayTiere[j];
+        displayTiere[j] = zwischen;
+    }
+
+    private static int findeAlphabet(char a){
+        for(int i = 0; i < alphabet.length;i++){
+            if(a==alphabet[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

@@ -36,7 +36,7 @@ public class Main extends Application {
 
 
 
-        Image icon = new Image("C:\\Users\\emilr\\Documents\\Schule\\Info LK\\Zoohandlung1.2\\src\\main\\java\\com\\example\\zoohandlung12\\icon.png");
+        Image icon = new Image("icon.png");
         stage.getIcons().add(icon);
         stage.setScene(scene);
         stage.show();

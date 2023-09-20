@@ -10,6 +10,7 @@ public class Pfleger {
     public Pfleger (String name, boolean maennlich){
         this.name = name;
         this.maennlich = maennlich;
+
     }
 
     // start methods

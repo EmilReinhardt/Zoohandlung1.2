@@ -4,9 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
@@ -19,6 +20,8 @@ public class ZoohandlungController implements Initializable {
     @FXML
     private TreeView treeView;
     @FXML
+    private TreeView treeViewPfleger;
+    @FXML
     private Label tierNamenAnzeige;
     @FXML
     private Label tierAlter;
@@ -30,14 +33,30 @@ public class ZoohandlungController implements Initializable {
     private Label tierLabel2;
     @FXML
     private Label tierLabel3;
+    @FXML
+    private Button sortieren;
+    @FXML
+    private TextField suchen;
+    @FXML
+    private Button tierLoeschen;
+    @FXML
+    private Button suchart;
     private TreeItem<String> rootItem = new TreeItem<>("Tiere");
+    private TreeItem<String> rootItemPfleger = new TreeItem<>("Pfleger");
 
 
 
     ZoohandlungManager manager = new ZoohandlungManager();
-    private Tier[] tiere = ZoohandlungManager.getTiere();
+    private Tier[] tiere = ZoohandlungManager.getDisplayTiere();
     private String[] tierNamen = new String[tiere.length];
     private Tier selectedTier;
+    private Pfleger[] pfleger = ZoohandlungManager.getDiplayPfleger();
+    private String[] pflegerNamen = new String[pfleger.length];
+    private Image hundIcon = new Image("Hund.png",16,16,false,false);
+    private Image schlangeIcon = new Image("Schlange.png",16,16,false,false);
+    private Image katzeIcon = new Image("Katze.png",16,16,false,false);
+
+
 
 
 
@@ -49,8 +68,17 @@ public class ZoohandlungController implements Initializable {
 
         for(int i = 0; i < tiere.length; i++){
             if(tiere[i]!=null) {
-                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName());
-                rootItem.getChildren().add(tierItem);
+                if (tiere[i].getTyp().equals("Hund")) {
+                    TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(hundIcon));
+                    rootItem.getChildren().add(tierItem);
+                }else if (tiere[i].getTyp().equals("Katze")) {
+                    TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(katzeIcon));
+                    rootItem.getChildren().add(tierItem);
+                }else if (tiere[i].getTyp().equals("Schlange")) {
+                    TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(schlangeIcon));
+                    rootItem.getChildren().add(tierItem);
+                }
+
                 tierNamen[i] = tiere[i].getName();
             }
 
@@ -58,18 +86,70 @@ public class ZoohandlungController implements Initializable {
 
         treeView.setRoot(rootItem);
         treeView.setShowRoot(false);
+        for(int i = 0; i < pfleger.length; i++){
+            if(pfleger[i]!=null) {
+                TreeItem<String> pflegerItem = new TreeItem<>(pfleger[i].getName());
+                rootItemPfleger.getChildren().add(pflegerItem);
+                pflegerNamen[i] = pfleger[i].getName();
+            }
+
+        }
+
+        treeViewPfleger.setRoot(rootItemPfleger);
+        treeViewPfleger.setShowRoot(false);
+    }
+    @FXML
+    protected void onSortieren(){
+        System.out.println(ZoohandlungManager.getSortierArt());
+        switch (ZoohandlungManager.getSortierArt()){
+            case 0:
+                ZoohandlungManager.sortOriginal();
+                aktualisiereTree();
+                ZoohandlungManager.setSortierArt(1);
+                sortieren.setText("Sortieren");
+                break;
+            case 1:
+                ZoohandlungManager.sortAlter();
+                aktualisiereTree();
+                ZoohandlungManager.setSortierArt(2);
+                sortieren.setText("Sortiert nach Alter");
+                break;
+            case 2:
+                ZoohandlungManager.sortPreis();
+                aktualisiereTree();
+                ZoohandlungManager.setSortierArt(3);
+                sortieren.setText("Sortiert nach Preis");
+                break;
+            case 3:
+                ZoohandlungManager.sortName();
+                aktualisiereTree();
+                ZoohandlungManager.setSortierArt(0);
+                sortieren.setText("Sortiert nach Name");
+                break;
+        }
     }
 
+
     @FXML
-    protected void aktulisiereTree(){
+    protected void aktualisiereTree(){
+        //ZoohandlungManager.sortAlter();
         rootItem.getChildren().clear();
-        tiere = ZoohandlungManager.getTiere();
+        tiere = ZoohandlungManager.getDisplayTiere();
         tierNamen = new String[tiere.length];
+        System.out.println(tiere.length);
 
         rootItem.getChildren().clear();
         for(int i = 0; i < tiere.length; i++){
-                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName());
+            if (tiere[i].getTyp().equals("Hund")) {
+                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(hundIcon));
                 rootItem.getChildren().add(tierItem);
+            }else if (tiere[i].getTyp().equals("Katze")) {
+                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(katzeIcon));
+                rootItem.getChildren().add(tierItem);
+            }else if (tiere[i].getTyp().equals("Schlange")) {
+                TreeItem<String> tierItem = new TreeItem<>(tiere[i].getName(),new ImageView(schlangeIcon));
+                rootItem.getChildren().add(tierItem);
+            }
                 tierNamen[i] = tiere[i].getName();
         }
     }
@@ -93,6 +173,54 @@ public class ZoohandlungController implements Initializable {
 
     }
 
+    @FXML
+    protected void onSuchen() {
+
+        if (suchen.getText().length() == 0) {
+            ZoohandlungManager.sortOriginal();
+        } else{
+            ZoohandlungManager.suchen(suchen.getText());
+        }
+        aktualisiereTree();
+    }
+
+    @FXML
+    protected void onSuchart(){
+        switch (ZoohandlungManager.getSuchArt()){
+            case 0:
+                ZoohandlungManager.setSuchArt(1);
+                suchart.setFont(new Font("System",8));
+                suchart.setText("Suchen Name:");
+                break;
+            case 1:
+                ZoohandlungManager.setSuchArt(2);
+                suchart.setFont(new Font("System",8));
+                suchart.setText("Suchen Alter:");
+                break;
+            case 2:
+                ZoohandlungManager.setSuchArt(3);
+                suchart.setFont(new Font("System",8));
+                suchart.setText("Suchen Preis:");
+                break;
+            case 3:
+                ZoohandlungManager.setSuchArt(4);
+                suchart.setFont(new Font("System",8));
+                suchart.setText("Suchen Rasse:");
+                break;
+            case 4:
+                ZoohandlungManager.setSuchArt(0);
+                suchart.setFont(new Font("System",12));
+                suchart.setText("Suchen:");
+                break;
+        }
+    }
+
+    @FXML
+    private void onLoeschen(){
+        TreeItem<String> item = (TreeItem<String>) treeView.getSelectionModel().getSelectedItem();
+        ZoohandlungManager.removeTier(ZoohandlungManager.getDisplayTier(findIndexString(tierNamen,item.getValue())));
+        aktualisiereTree();
+    }
 
     public void selectItem(){
 
@@ -133,11 +261,5 @@ public class ZoohandlungController implements Initializable {
             tierLabel2.setText("");
             tierLabel3.setText("");
         }
-
-
-
-
     }
-
-
 }

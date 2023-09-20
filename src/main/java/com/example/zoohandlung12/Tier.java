@@ -1,6 +1,6 @@
 package com.example.zoohandlung12;
 
-public class Tier {
+public abstract class Tier {
     // start attributes
     protected String name;
     protected int alter;
@@ -38,19 +38,14 @@ public class Tier {
 
     public void gibtLaut() {
         System.out.println(name + " hat einen Laut gegeben");
-
     }
-
     public void seiWuetend() {
         System.out.println(name + " ist wütend");
-
     }
 
-    public String getTyp(){
-        return null;
-    }
+    public abstract String getTyp();
 
-    public String getRasse(){return null;}
+    public abstract String getRasse();
 
     // end methods
 }
