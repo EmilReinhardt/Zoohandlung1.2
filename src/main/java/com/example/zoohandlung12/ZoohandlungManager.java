@@ -6,11 +6,11 @@ import java.util.Arrays;
 
 public class ZoohandlungManager {
     private Zoohandlung zoo = new Zoohandlung();
-    private static int sortierArt = 0;//0 = normal, 1 = alter, 2 = preis, 3 = name
+    private static int sortierArt = 1;//0 = normal, 1 = alter, 2 = preis, 3 = name
     private static int suchArt = 0;//0 = alle, 1 = name, 2 = alter, 3 = preis, 4 = rasse
     private static Tier[] tiere = new Tier[6];
     private static Tier[] displayTiere;
-    private static Pfleger[] pfleger = new Pfleger[2];
+    private static Pfleger[] pfleger = new Pfleger[3];
     private static Pfleger[] displayPfleger = pfleger.clone();
     private static char[] alphabet = "aäbcdefghijklmnoöpqrstuüvwxyz".toCharArray();
 
@@ -25,8 +25,9 @@ public class ZoohandlungManager {
         tiere[5] = new Schlange("Klaus",5,100,"Klapperschlange",12,true);
         displayTiere = tiere.clone();
 
-        pfleger[0] = new Pfleger("Hans",true);
-        pfleger[1] = new Pfleger("Kristoph",true);
+        pfleger[0] = new Pfleger("Hans",50,15,true);
+        pfleger[1] = new Pfleger("Kristoph",40,13,true);
+        pfleger[2] = new Pfleger("Heike",43,20,false);
         displayPfleger = pfleger.clone();
 
 
@@ -49,6 +50,11 @@ public class ZoohandlungManager {
         tiere[tiere.length-1] = tier;
         displayTiere = tiere.clone();
     }
+    public static void addPfleger(Pfleger neuerPfleger){
+        pfleger = Arrays.copyOf(pfleger, pfleger.length+1);
+        pfleger[pfleger.length-1] = neuerPfleger;
+        displayPfleger = pfleger.clone();
+    }
 
     public static void removeTier(Tier tier){
         Tier[] tiereNeu = new Tier[tiere.length-1];
@@ -61,6 +67,19 @@ public class ZoohandlungManager {
         }
         tiere = tiereNeu;
         displayTiere = tiere.clone();
+    }
+
+    public static void removePfleger(Pfleger pflegerweg){
+        Pfleger[] pflegerNeu = new Pfleger[pfleger.length-1];
+        int zaehler = 0;
+        for(Pfleger pfleger2 : pfleger){
+            if(!pfleger2.equals(pflegerweg)) {
+                pflegerNeu[zaehler] = pfleger2;
+                zaehler++;
+            }
+        }
+        pfleger = pflegerNeu;
+        displayPfleger = pfleger.clone();
     }
 
     public static void sortAlter(){
@@ -136,14 +155,70 @@ public class ZoohandlungManager {
             }
         }else if(suchArt == 2){
             sortAlter();
+            int u = 0;
+            int o = displayTiere.length -1;
+            int m;
+            int gefunden = -1;
+            // wiederhole solange u >= o
+            for (int i = 0;o >= u; i++) {
+                m = (o+u)/2;
+                //System.out.println(m);
+                if(displayTiere[m].getAlter() == Integer.parseInt(x)){
+                    gefunden = m;
+                    break;
+                }else if (displayTiere[m].getAlter() < Integer.parseInt(x)) {
+                    u = m+1;
+                }else if (displayTiere[m].getAlter() > Integer.parseInt(x)) {
+                    o = m - 1;
+                }
+            }
+            System.out.println(gefunden);
+            if(gefunden != -1){
+                sucheTiere = new Tier[1];
+                sucheTiere[0] = displayTiere[gefunden];
 
+            }
 
+        }else if(suchArt == 3){
+            sortPreis();
+            int u = 0;
+            int o = displayTiere.length -1;
+            int m;
+            int gefunden = -1;
+            for (int i = 0;o >= u; i++) {
+                m = (o+u)/2;
+                if(displayTiere[m].getPreis() == Integer.parseInt(x)){
+                    gefunden = m;
+                    break;
+                }else if (displayTiere[m].getPreis() < Integer.parseInt(x)) {
+                    u = m+1;
+                }else if (displayTiere[m].getPreis() > Integer.parseInt(x)) {
+                    o = m - 1;
+                }
+            }
+            System.out.println(gefunden);
+            if(gefunden != -1){
+                sucheTiere = new Tier[1];
+                sucheTiere[0] = displayTiere[gefunden];
+
+            }
+
+        }else if(suchArt == 4){
+            for(int i = 0; i < tiere.length; i++) {
+                if (tiere[i].getRasse().toLowerCase().contains(x.toLowerCase())) {
+                    sucheTiere = Arrays.copyOf(sucheTiere, sucheTiere.length + 1);
+                    sucheTiere[sucheTiere.length - 1] = tiere[i];
+                }
+            }
         }
         displayTiere = sucheTiere.clone();
     }
 
     public static Tier getDisplayTier(int x){
         return displayTiere[x];
+    }
+    public static Pfleger getDisplayPflegerIn(int x){
+        return displayPfleger[x];
     }
     private static void tausche(int i, int j){
         Tier zwischen = displayTiere[i];

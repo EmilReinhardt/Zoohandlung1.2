@@ -1,10 +1,14 @@
 package com.example.zoohandlung12;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class NeuesTierController {
 
@@ -45,6 +49,14 @@ public class NeuesTierController {
 
 
 
+    private ZoohandlungController controller;
+
+
+    public void setController(ZoohandlungController controller) {
+        this.controller = controller;
+    }
+
+
 
 
     public void onNeuerHund(){
@@ -52,6 +64,7 @@ public class NeuesTierController {
             ZoohandlungManager.addTiere(new Hund(hundName.getText(), Integer.parseInt(hundAlter.getText()), Double.parseDouble(hundPreis.getText()), hundRasse.getText()));
             Stage stage = (Stage) hundName.getScene().getWindow();
             stage.close();
+            controller.aktualisiereTiereTree();
         }catch (NumberFormatException e){
             ungueltigHund.setText("ungültige Eingabe");
         }
@@ -62,6 +75,7 @@ public class NeuesTierController {
             ZoohandlungManager.addTiere(new Katze(katzeName.getText(),Integer.parseInt(katzeAlter.getText()),Double.parseDouble(katzePreis.getText()),katzeRasse.getText()));
             Stage stage = (Stage) katzeName.getScene().getWindow();
             stage.close();
+            controller.aktualisiereTiereTree();
         }catch (NumberFormatException e){
             ungueltigKatze.setText("ungültige Eingabe");
         }
@@ -71,6 +85,7 @@ public class NeuesTierController {
             ZoohandlungManager.addTiere(new Schlange(schlangeName.getText(),Integer.parseInt(schlangeAlter.getText()),Double.parseDouble(schlangePreis.getText()),schlangeRasse.getText(),Double.parseDouble(schlangeLaenge.getText()),Boolean.parseBoolean(String.valueOf(schlangeGiftig.selectedProperty()))));
             Stage stage = (Stage) schlangeName.getScene().getWindow();
             stage.close();
+            controller.aktualisiereTiereTree();
         }catch (NumberFormatException e){
             ungueltigSchlange.setText("ungültige Eingabe");
         }

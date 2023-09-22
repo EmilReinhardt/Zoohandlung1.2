@@ -4,11 +4,15 @@ public class Pfleger {
 
     // start attributes
     private String name;
+    private int alter;
+    private double gehalt;
     private boolean maennlich;
     private Tier aktTier;
     // end attributes
-    public Pfleger (String name, boolean maennlich){
+    public Pfleger (String name, int alter, double gehalt, boolean maennlich){
         this.name = name;
+        this.alter = alter;
+        this.gehalt = gehalt;
         this.maennlich = maennlich;
 
     }
@@ -30,7 +34,8 @@ public class Pfleger {
     public Tier getAktTier() {
         return aktTier;
     }
-
+    public double getGehalt(){return gehalt;}
+    public int getAlter(){return alter;}
     public void setAktTier(Tier aktTierNew) {
         aktTier = aktTierNew;
     }

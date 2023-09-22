@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -10,11 +11,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.zoohandlung12.ZoohandlungController">
   <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-      <AnchorPane layoutX="13.0" layoutY="15.0" prefHeight="370.0" prefWidth="575.0">
+      <AnchorPane fx:id="zoohandlungPane" layoutX="13.0" layoutY="15.0" prefHeight="370.0" prefWidth="575.0">
             <children>
                <TabPane layoutX="-9.0" prefHeight="370.0" prefWidth="590.0" tabClosingPolicy="UNAVAILABLE">
                  <tabs>
@@ -23,7 +25,7 @@
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
                                  <Button layoutX="9.0" layoutY="314.0" mnemonicParsing="false" onAction="#onNeuesTier" prefHeight="25.0" prefWidth="198.0" text="Neues Tier" />
-                                 <TreeView fx:id="treeView" layoutX="8.0" layoutY="64.0" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="245.0" prefWidth="200.0" />
+                                 <TreeView fx:id="treeViewTiere" layoutX="8.0" layoutY="64.0" onContextMenuRequested="#selectTier" onMouseClicked="#selectTier" prefHeight="245.0" prefWidth="200.0" />
                                  <Label fx:id="tierNamenAnzeige" alignment="CENTER" layoutX="370.0" layoutY="14.0" prefHeight="17.0" prefWidth="153.0" text="Kein Tier ausgewählt">
                                     <font>
                                        <Font size="16.0" />
@@ -34,19 +36,11 @@
                                  <Label fx:id="tierLabel1" alignment="CENTER" layoutX="352.0" layoutY="100.0" prefHeight="17.0" prefWidth="189.0" textAlignment="CENTER" />
                                  <Label fx:id="tierLabel2" alignment="CENTER" layoutX="352.0" layoutY="125.0" prefHeight="17.0" prefWidth="189.0" textAlignment="CENTER" />
                                  <Label fx:id="tierLabel3" alignment="CENTER" layoutX="352.0" layoutY="150.0" prefHeight="17.0" prefWidth="189.0" textAlignment="CENTER" />
-                                 <Button layoutX="7.0" layoutY="9.0" mnemonicParsing="false" onAction="#aktualisiereTree" prefHeight="25.0" prefWidth="63.0" text="Aktualisieren">
-                                    <font>
-                                       <Font size="8.0" />
-                                    </font>
-                                 </Button>
-                                 <Button fx:id="sortieren" layoutX="82.0" layoutY="9.0" mnemonicParsing="false" onAction="#onSortieren" prefHeight="25.0" prefWidth="125.0" text="Sortieren">
-                                    <font>
-                                       <Font size="8.0" />
-                                    </font>
-                                 </Button>
+                                 <Button fx:id="sortieren" layoutX="8.0" layoutY="9.0" mnemonicParsing="false" onAction="#onSortieren" prefHeight="25.0" prefWidth="199.0" text="Sortieren" />
                                  <Button fx:id="suchart" layoutX="7.0" layoutY="37.0" mnemonicParsing="false" onAction="#onSuchart" prefHeight="25.0" prefWidth="63.0" text="Suchen:" />
                                  <TextField fx:id="suchen" layoutX="82.0" layoutY="37.0" onKeyTyped="#onSuchen" prefHeight="25.0" prefWidth="125.0" />
-                                 <Button fx:id="tierLoeschen" layoutX="391.0" layoutY="301.0" mnemonicParsing="false" onAction="#onLoeschen" prefHeight="25.0" prefWidth="112.0" text="Tier Löschen" />
+                                 <Button fx:id="tierLoeschen" disable="true" layoutX="391.0" layoutY="301.0" mnemonicParsing="false" onAction="#onLoeschen" prefHeight="25.0" prefWidth="112.0" text="Tier Löschen" />
+                                 <Label fx:id="tierAlter2" alignment="CENTER" layoutX="397.0" layoutY="75.0" prefHeight="17.0" prefWidth="100.0" textAlignment="CENTER" />
                               </children>
                            </AnchorPane>
                      </content>
@@ -55,7 +49,20 @@
                      <content>
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                 <TreeView fx:id="treeViewPfleger" layoutY="47.0" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="245.0" prefWidth="200.0" />
+                                 <TreeView fx:id="treeViewPfleger" layoutX="8.0" layoutY="42.0" onContextMenuRequested="#selectPfleger" onMouseClicked="#selectPfleger" prefHeight="267.0" prefWidth="200.0" />
+                                 <Button layoutX="9.0" layoutY="314.0" mnemonicParsing="false" onAction="#onNeuerPfleger" prefHeight="25.0" prefWidth="198.0" text="Neuer Pfleger" />
+                                 <Label fx:id="gesammtGehalt" layoutX="9.0" layoutY="14.0" prefHeight="17.0" prefWidth="197.0" text="Gesammt Gehalt: 0 €/h" textAlignment="CENTER" />
+                                 <Label fx:id="pflegerNamenAnzeige" alignment="CENTER" layoutX="346.0" layoutY="14.0" prefHeight="25.0" prefWidth="190.0" text="Kein Pfleger ausgewählt">
+                                    <font>
+                                       <Font size="16.0" />
+                                    </font>
+                                 </Label>
+                                 <Label fx:id="pflegerAlter" alignment="CENTER" layoutX="391.0" layoutY="50.0" prefHeight="17.0" prefWidth="100.0" textAlignment="CENTER" />
+                                 <Label fx:id="pflegerGehalt" alignment="CENTER" layoutX="391.0" layoutY="75.0" prefHeight="17.0" prefWidth="100.0" textAlignment="CENTER" />
+                                 <Label fx:id="pflegerGeschlecht" alignment="CENTER" layoutX="364.0" layoutY="100.0" prefHeight="17.0" prefWidth="153.0" textAlignment="CENTER" />
+                                 <Button fx:id="pflegerEntlassen" disable="true" layoutX="385.0" layoutY="203.0" mnemonicParsing="false" onAction="#onPflegerEntlassen" text="Pfleger entlasssen" />
+                                 <MenuButton fx:id="aktuellesTierButton" layoutX="372.0" layoutY="125.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Aktuelles Tier" textAlignment="CENTER" visible="false" />
+                                 <Button fx:id="tierFuettern" layoutX="384.0" layoutY="170.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Tier Füttern" textAlignment="CENTER" visible="false" />
                               </children></AnchorPane>
                      </content>
                    </Tab>
@@ -63,6 +70,16 @@
                </TabPane>
             </children>
       </AnchorPane>
+         <AnchorPane fx:id="geschlossenPane" prefHeight="400.0" prefWidth="600.0" visible="false">
+            <children>
+               <Text layoutX="124.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoohandlung Geschlossen" textAlignment="CENTER" wrappingWidth="352.1366882324219">
+                  <font>
+                     <Font size="51.0" />
+                  </font>
+               </Text>
+               <Button layoutX="230.0" layoutY="294.0" mnemonicParsing="false" onAction="#onOeffnen" prefHeight="39.0" prefWidth="138.0" text="Öffnen" />
+            </children>
+         </AnchorPane>
     </children>
   </Pane>
 </VBox>
