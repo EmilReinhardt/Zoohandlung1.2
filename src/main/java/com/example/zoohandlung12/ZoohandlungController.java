@@ -1,12 +1,11 @@
 package com.example.zoohandlung12;
 
-import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class ZoohandlungController implements Initializable {
@@ -66,6 +66,12 @@ public class ZoohandlungController implements Initializable {
     private MenuButton aktuellesTierButton;
     @FXML
     private Button tierFuettern;
+    @FXML
+    private Label fuetternAnzeige;
+    @FXML
+    private Label tierLabel4;
+    @FXML
+    private Label tierLabel5;
     private TreeItem<String> rootItemTiere = new TreeItem<>("Tiere");
     private TreeItem<String> rootItemPfleger = new TreeItem<>("Pfleger");
 
@@ -218,6 +224,14 @@ public class ZoohandlungController implements Initializable {
         zoohandlungPane.setVisible(true);
     }
 
+    @FXML
+    protected void onSchliessen(){
+        geschlossenPane.setDisable(false);
+        geschlossenPane.setVisible(true);
+        zoohandlungPane.setDisable(true);
+        zoohandlungPane.setVisible(false);
+    }
+
 
     @FXML
     protected void onNeuesTier(){
@@ -363,6 +377,30 @@ public class ZoohandlungController implements Initializable {
         aktualisierePflegerTree();
     }
 
+    @FXML
+    protected void tierFuettern(){
+        TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
+        aktualisiereTiereTree();
+        Pfleger selectedPfleger = pfleger[findIndexString(pflegerNamen,item.getValue())];
+        selectedPfleger.fuettern();
+        fuetternAnzeige.setText(selectedPfleger.getAktTier().getName() + " wurde von "+selectedPfleger.getName()+" gefüttert");
+        delay(3000,()-> fuetternAnzeige.setText(""));
+
+    }
+
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try { Thread.sleep(millis); }
+                catch (InterruptedException e) { }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
+    }
+
     private int findIndexString(String[] stringList,String string){
         for(int i = 0; i < stringList.length; i++){
             if(stringList[i] == string){
@@ -374,6 +412,7 @@ public class ZoohandlungController implements Initializable {
     }
 
     private void displayTier(Tier aktTier){
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM HH:mm:ss");
         tierLoeschen.setDisable(false);
         tierNamenAnzeige.setText(aktTier.getTyp()+": "+aktTier.getName());
         tierAlter.setText("-"+aktTier.getTyp()+" Alter: "+aktTier.getAlter());
@@ -386,12 +425,29 @@ public class ZoohandlungController implements Initializable {
             if(((Schlange)aktTier).getToetlich()){
                 tierLabel3.setText("-"+aktTier.getTyp()+" ist tötlich");
             }else{
-                tierLabel3.setText("-"+aktTier.getTyp()+" ist nicht tötlich");
+                tierLabel3.setText("- "+aktTier.getTyp()+" ist nicht tötlich");
+            }
+            try{
+                tierLabel4.setText("-Letzes mal gefüttert: ");
+                tierLabel5.setText("- "+aktTier.getZuletztGefuettert().format(myFormatObj));
+            }catch(NullPointerException e){
+                tierLabel4.setText("- Wurde noch nicht gefüttert");
+                tierLabel5.setText("");
             }
         }else{
-            tierLabel2.setText("");
-            tierLabel3.setText("");
+            try{
+                tierLabel2.setText("- Letzes mal gefüttert: ");
+                tierLabel3.setText(aktTier.getZuletztGefuettert().format(myFormatObj));
+            }catch(NullPointerException e){
+                tierLabel2.setText("- Wurde noch nicht gefüttert");
+                tierLabel3.setText("");
+            }
+            tierLabel4.setText("");
+            tierLabel5.setText("");
+
         }
+
+
     }
 
     private void displayPfleger(Pfleger pfleger) {

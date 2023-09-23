@@ -154,54 +154,58 @@ public class ZoohandlungManager {
                 }
             }
         }else if(suchArt == 2){
-            sortAlter();
-            int u = 0;
-            int o = displayTiere.length -1;
-            int m;
-            int gefunden = -1;
-            // wiederhole solange u >= o
-            for (int i = 0;o >= u; i++) {
-                m = (o+u)/2;
-                //System.out.println(m);
-                if(displayTiere[m].getAlter() == Integer.parseInt(x)){
-                    gefunden = m;
-                    break;
-                }else if (displayTiere[m].getAlter() < Integer.parseInt(x)) {
-                    u = m+1;
-                }else if (displayTiere[m].getAlter() > Integer.parseInt(x)) {
-                    o = m - 1;
+            try {
+                sortAlter();
+                int u = 0;
+                int o = displayTiere.length - 1;
+                int m;
+                int gefunden = -1;
+                // wiederhole solange u >= o
+                for (int i = 0; o >= u; i++) {
+                    m = (o + u) / 2;
+                    //System.out.println(m);
+                    if (displayTiere[m].getAlter() == Integer.parseInt(x)) {
+                        gefunden = m;
+                        break;
+                    } else if (displayTiere[m].getAlter() < Integer.parseInt(x)) {
+                        u = m + 1;
+                    } else if (displayTiere[m].getAlter() > Integer.parseInt(x)) {
+                        o = m - 1;
+                    }
                 }
-            }
-            System.out.println(gefunden);
-            if(gefunden != -1){
-                sucheTiere = new Tier[1];
-                sucheTiere[0] = displayTiere[gefunden];
+                System.out.println(gefunden);
+                if (gefunden != -1) {
+                    sucheTiere = new Tier[1];
+                    sucheTiere[0] = displayTiere[gefunden];
 
-            }
+                }
+            }catch(NumberFormatException e){}
 
         }else if(suchArt == 3){
-            sortPreis();
-            int u = 0;
-            int o = displayTiere.length -1;
-            int m;
-            int gefunden = -1;
-            for (int i = 0;o >= u; i++) {
-                m = (o+u)/2;
-                if(displayTiere[m].getPreis() == Integer.parseInt(x)){
-                    gefunden = m;
-                    break;
-                }else if (displayTiere[m].getPreis() < Integer.parseInt(x)) {
-                    u = m+1;
-                }else if (displayTiere[m].getPreis() > Integer.parseInt(x)) {
-                    o = m - 1;
+            try {
+                sortPreis();
+                int u = 0;
+                int o = displayTiere.length - 1;
+                int m;
+                int gefunden = -1;
+                for (int i = 0; o >= u; i++) {
+                    m = (o + u) / 2;
+                    if (displayTiere[m].getPreis() == Integer.parseInt(x)) {
+                        gefunden = m;
+                        break;
+                    } else if (displayTiere[m].getPreis() < Integer.parseInt(x)) {
+                        u = m + 1;
+                    } else if (displayTiere[m].getPreis() > Integer.parseInt(x)) {
+                        o = m - 1;
+                    }
                 }
-            }
-            System.out.println(gefunden);
-            if(gefunden != -1){
-                sucheTiere = new Tier[1];
-                sucheTiere[0] = displayTiere[gefunden];
+                System.out.println(gefunden);
+                if (gefunden != -1) {
+                    sucheTiere = new Tier[1];
+                    sucheTiere[0] = displayTiere[gefunden];
 
-            }
+                }
+            }catch(NumberFormatException e){}
 
         }else if(suchArt == 4){
             for(int i = 0; i < tiere.length; i++) {

@@ -1,5 +1,7 @@
 package com.example.zoohandlung12;
 
+import java.time.LocalDateTime;
+
 public class Pfleger {
 
     // start attributes
@@ -27,7 +29,8 @@ public class Pfleger {
     }
 
     public void fuettern() {
-        System.out.println(aktTier.name + " wurde von "+name+" gefüttert");
+        //System.out.println(aktTier.name + " wurde von "+name+" gefüttert");
+        aktTier.setZuletztGefuettert(LocalDateTime.now());
 
     }
 

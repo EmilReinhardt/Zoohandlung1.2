@@ -41,6 +41,13 @@
                                  <TextField fx:id="suchen" layoutX="82.0" layoutY="37.0" onKeyTyped="#onSuchen" prefHeight="25.0" prefWidth="125.0" />
                                  <Button fx:id="tierLoeschen" disable="true" layoutX="391.0" layoutY="301.0" mnemonicParsing="false" onAction="#onLoeschen" prefHeight="25.0" prefWidth="112.0" text="Tier Löschen" />
                                  <Label fx:id="tierAlter2" alignment="CENTER" layoutX="397.0" layoutY="75.0" prefHeight="17.0" prefWidth="100.0" textAlignment="CENTER" />
+                                 <Label fx:id="tierLabel4" alignment="CENTER" layoutX="352.0" layoutY="175.0" prefHeight="17.0" prefWidth="189.0" textAlignment="CENTER" />
+                                 <Label fx:id="tierLabel5" alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="17.0" prefWidth="189.0" textAlignment="CENTER" />
+                                 <Button layoutX="241.0" layoutY="294.0" mnemonicParsing="false" onAction="#onSchliessen" prefHeight="39.0" prefWidth="74.0" text="Zoohandlung schließen " textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                       <Font size="10.0" />
+                                    </font>
+                                 </Button>
                               </children>
                            </AnchorPane>
                      </content>
@@ -61,8 +68,9 @@
                                  <Label fx:id="pflegerGehalt" alignment="CENTER" layoutX="391.0" layoutY="75.0" prefHeight="17.0" prefWidth="100.0" textAlignment="CENTER" />
                                  <Label fx:id="pflegerGeschlecht" alignment="CENTER" layoutX="364.0" layoutY="100.0" prefHeight="17.0" prefWidth="153.0" textAlignment="CENTER" />
                                  <Button fx:id="pflegerEntlassen" disable="true" layoutX="385.0" layoutY="203.0" mnemonicParsing="false" onAction="#onPflegerEntlassen" text="Pfleger entlasssen" />
-                                 <MenuButton fx:id="aktuellesTierButton" layoutX="372.0" layoutY="125.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="Aktuelles Tier" textAlignment="CENTER" visible="false" />
-                                 <Button fx:id="tierFuettern" layoutX="384.0" layoutY="170.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Tier Füttern" textAlignment="CENTER" visible="false" />
+                                 <MenuButton fx:id="aktuellesTierButton" layoutX="372.0" layoutY="125.0" mnemonicParsing="false" onAction="#selectTier" prefHeight="25.0" prefWidth="138.0" text="Aktuelles Tier" textAlignment="CENTER" visible="false" />
+                                 <Button fx:id="tierFuettern" layoutX="384.0" layoutY="170.0" mnemonicParsing="false" onAction="#tierFuettern" prefHeight="25.0" prefWidth="113.0" text="Tier Füttern" textAlignment="CENTER" visible="false" />
+                                 <Label fx:id="fuetternAnzeige" alignment="CENTER" layoutX="337.0" layoutY="267.0" prefHeight="17.0" prefWidth="208.0" textAlignment="CENTER" />
                               </children></AnchorPane>
                      </content>
                    </Tab>

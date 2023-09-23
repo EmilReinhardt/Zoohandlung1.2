@@ -1,10 +1,13 @@
 package com.example.zoohandlung12;
 
+import java.time.LocalDateTime;
+
 public abstract class Tier {
     // start attributes
     protected String name;
     protected int alter;
     protected double preis;
+    protected LocalDateTime zuletztGefuettert;
     // end attributes
 
     public Tier(){
@@ -46,6 +49,15 @@ public abstract class Tier {
     public abstract String getTyp();
 
     public abstract String getRasse();
+
+    public void setZuletztGefuettert(LocalDateTime zuletztGefuettert) {
+        this.zuletztGefuettert = zuletztGefuettert;
+    }
+
+    public LocalDateTime getZuletztGefuettert() {
+        return zuletztGefuettert;
+    }
+
 
     // end methods
 }

@@ -1,8 +1,6 @@
 package com.example.zoohandlung12;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -82,7 +80,7 @@ public class NeuesTierController {
     }
     public void onNeueSchlange(){
         try{
-            ZoohandlungManager.addTiere(new Schlange(schlangeName.getText(),Integer.parseInt(schlangeAlter.getText()),Double.parseDouble(schlangePreis.getText()),schlangeRasse.getText(),Double.parseDouble(schlangeLaenge.getText()),Boolean.parseBoolean(String.valueOf(schlangeGiftig.selectedProperty()))));
+            ZoohandlungManager.addTiere(new Schlange(schlangeName.getText(),Integer.parseInt(schlangeAlter.getText()),Double.parseDouble(schlangePreis.getText()),schlangeRasse.getText(),Double.parseDouble(schlangeLaenge.getText()),schlangeGiftig.isSelected()));
             Stage stage = (Stage) schlangeName.getScene().getWindow();
             stage.close();
             controller.aktualisiereTiereTree();
