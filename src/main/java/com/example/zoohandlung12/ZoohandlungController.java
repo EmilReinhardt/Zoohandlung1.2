@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class ZoohandlungController implements Initializable {
 
+    //alle GUI sachen:
     @FXML
     private TreeView treeViewTiere;
     @FXML
@@ -72,6 +74,8 @@ public class ZoohandlungController implements Initializable {
     private Label tierLabel4;
     @FXML
     private Label tierLabel5;
+    @FXML
+    private Button tierStreicheln;
     private TreeItem<String> rootItemTiere = new TreeItem<>("Tiere");
     private TreeItem<String> rootItemPfleger = new TreeItem<>("Pfleger");
 
@@ -92,10 +96,11 @@ public class ZoohandlungController implements Initializable {
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {//wird bei Start anugeführt
         zoohandlungPane.setVisible(false);
         geschlossenPane.setVisible(true);
         tierLoeschen.setDisable(true);
+        tierStreicheln.setVisible(false);
 
         for (int i = 0; i < tiere.length; i++) {
             if (tiere[i] != null) {
@@ -193,6 +198,7 @@ public class ZoohandlungController implements Initializable {
     protected void aktualisierePflegerTree(){
         double insgGehalt = 0;
         tierFuettern.setVisible(false);
+        tierStreicheln.setVisible(false);
         rootItemPfleger.getChildren().clear();
         pfleger = ZoohandlungManager.getDiplayPfleger();
         pflegerNamen = new String[pfleger.length];
@@ -280,7 +286,7 @@ public class ZoohandlungController implements Initializable {
     }
 
     @FXML
-    protected void onSuchart(){
+    protected void onSuchart(){//ändert Suchart
         switch (ZoohandlungManager.getSuchArt()){
             case 0:
                 ZoohandlungManager.setSuchArt(1);
@@ -311,7 +317,7 @@ public class ZoohandlungController implements Initializable {
     }
 
     @FXML
-    private void onLoeschen(){
+    private void onLoeschen(){//löscht Tier
         TreeItem<String> item = (TreeItem<String>) treeViewTiere.getSelectionModel().getSelectedItem();
         ZoohandlungManager.removeTier(ZoohandlungManager.getDisplayTier(findIndexString(tierNamen,item.getValue())));
         aktualisiereTiereTree();
@@ -329,6 +335,7 @@ public class ZoohandlungController implements Initializable {
 
     @FXML
     public void selectPfleger(){
+        tierStreicheln.setVisible(false);
         tierFuettern.setVisible(false);
         TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
         aktuellesTierButton.getItems().clear();
@@ -339,7 +346,9 @@ public class ZoohandlungController implements Initializable {
             if(selectedPfleger.getAktTier()!=null){
                 aktuellesTierButton.setText("Aktuelles Tier: "+selectedPfleger.getAktTier().getName());
                 tierFuettern.setVisible(true);
+                tierStreicheln.setVisible(true);
                 tierFuettern.setText(selectedPfleger.getAktTier().getName()+" füttern");
+                tierStreicheln.setText(selectedPfleger.getAktTier().getName()+" streicheln");
             }else{
                 aktuellesTierButton.setText("Aktuelles Tier ");
             }
@@ -369,6 +378,8 @@ public class ZoohandlungController implements Initializable {
         selectedPfleger.setAktTier(selectedTier);
         tierFuettern.setVisible(true);
         tierFuettern.setText(selectedPfleger.getAktTier().getName()+" füttern");
+        tierStreicheln.setVisible(true);
+        tierStreicheln.setText(selectedPfleger.getAktTier().getName()+" streicheln");
 
     }
     @FXML
@@ -380,17 +391,33 @@ public class ZoohandlungController implements Initializable {
 
     @FXML
     protected void tierFuettern(){
-        TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
         aktualisiereTiereTree();
+        TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
         Pfleger selectedPfleger = pfleger[findIndexString(pflegerNamen,item.getValue())];
-        System.out.println(selectedPfleger.getAktTier().getName());
         selectedPfleger.fuettern();
         fuetternAnzeige.setText(selectedPfleger.getAktTier().getName() + " wurde von "+selectedPfleger.getName()+" gefüttert");
         delay(3000,()-> fuetternAnzeige.setText(""));
 
     }
 
-    public static void delay(long millis, Runnable continuation) {
+    @FXML
+    protected void tierStreicheln() {
+
+        TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
+        Pfleger selectedPfleger = pfleger[findIndexString(pflegerNamen, item.getValue())];
+        if (selectedPfleger.getAktTier().getTyp().equals("Katze")) {
+            AudioClip clip = new AudioClip(Main.getMain().getClass().getResource("KatzeLaut.wav").toExternalForm());
+            clip.play();
+        } else if (selectedPfleger.getAktTier().getTyp().equals("Hund")) {
+            AudioClip clip = new AudioClip(Main.getMain().getClass().getResource("HundLaut.wav").toExternalForm());
+            clip.play();
+        } else if (selectedPfleger.getAktTier().getTyp().equals("Schlange")) {
+            AudioClip clip = new AudioClip(Main.getMain().getClass().getResource("SchlangeLaut.wav").toExternalForm());
+            clip.play();
+        }
+    }
+
+    public static void delay(long millis, Runnable continuation) {//warten Funktion
         Task<Void> sleeper = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -403,7 +430,7 @@ public class ZoohandlungController implements Initializable {
         new Thread(sleeper).start();
     }
 
-    private int findIndexString(String[] stringList,String string){
+    private int findIndexString(String[] stringList,String string){//findet Index von String in String Array
         for(int i = 0; i < stringList.length; i++){
             if(stringList[i] == string){
                 return i;
@@ -437,7 +464,6 @@ public class ZoohandlungController implements Initializable {
                 tierLabel5.setText("");
             }
         }else{
-            System.out.println(aktTier.getZuletztGefuettert());
             try{
                 tierLabel2.setText("- Letzes mal gefüttert: ");
                 DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM HH:mm:ss");

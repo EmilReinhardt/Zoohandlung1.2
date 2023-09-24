@@ -52,11 +52,9 @@ public abstract class Tier {
 
     public void setZuletztGefuettert(LocalDateTime newZuletztGefuettert) {
         zuletztGefuettert = newZuletztGefuettert;
-        System.out.println(zuletztGefuettert);
     }
 
     public LocalDateTime getZuletztGefuettert() {
-        System.out.println(zuletztGefuettert);
         return zuletztGefuettert;
     }
 

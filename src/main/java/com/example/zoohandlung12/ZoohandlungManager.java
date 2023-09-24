@@ -1,7 +1,6 @@
 package com.example.zoohandlung12;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ZoohandlungManager {
@@ -123,9 +122,9 @@ public class ZoohandlungManager {
 
     public static void sortOriginal(){
         displayTiere = tiere.clone();
-    }
+    }//sortiert wie anfangs
 
-    public static void suchen(String x){
+    public static void suchen(String x){//sucht abhängig von Suchart
         Tier[] sucheTiere = new Tier[0];
         if(suchArt==0){
             for(int i = 0; i < tiere.length; i++) {
@@ -163,7 +162,6 @@ public class ZoohandlungManager {
                 // wiederhole solange u >= o
                 for (int i = 0; o >= u; i++) {
                     m = (o + u) / 2;
-                    //System.out.println(m);
                     if (displayTiere[m].getAlter() == Integer.parseInt(x)) {
                         gefunden = m;
                         break;
@@ -173,7 +171,6 @@ public class ZoohandlungManager {
                         o = m - 1;
                     }
                 }
-                System.out.println(gefunden);
                 if (gefunden != -1) {
                     sucheTiere = new Tier[1];
                     sucheTiere[0] = displayTiere[gefunden];
@@ -199,7 +196,6 @@ public class ZoohandlungManager {
                         o = m - 1;
                     }
                 }
-                System.out.println(gefunden);
                 if (gefunden != -1) {
                     sucheTiere = new Tier[1];
                     sucheTiere[0] = displayTiere[gefunden];
@@ -230,7 +226,7 @@ public class ZoohandlungManager {
         displayTiere[j] = zwischen;
     }
 
-    private static int findeAlphabet(char a){
+    private static int findeAlphabet(char a){//dindet index von char in alphabet
         for(int i = 0; i < alphabet.length;i++){
             if(a==alphabet[i]) {
                 return i;

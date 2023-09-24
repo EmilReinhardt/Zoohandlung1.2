@@ -29,7 +29,6 @@ public class Pfleger {
     }
 
     public void fuettern() {
-        System.out.println(aktTier.name + " wurde von "+name+" gefüttert");
         aktTier.setZuletztGefuettert(LocalDateTime.now());
 
     }
