@@ -192,6 +192,7 @@ public class ZoohandlungController implements Initializable {
     @FXML
     protected void aktualisierePflegerTree(){
         double insgGehalt = 0;
+        tierFuettern.setVisible(false);
         rootItemPfleger.getChildren().clear();
         pfleger = ZoohandlungManager.getDiplayPfleger();
         pflegerNamen = new String[pfleger.length];
@@ -382,6 +383,7 @@ public class ZoohandlungController implements Initializable {
         TreeItem<String> item = (TreeItem<String>) treeViewPfleger.getSelectionModel().getSelectedItem();
         aktualisiereTiereTree();
         Pfleger selectedPfleger = pfleger[findIndexString(pflegerNamen,item.getValue())];
+        System.out.println(selectedPfleger.getAktTier().getName());
         selectedPfleger.fuettern();
         fuetternAnzeige.setText(selectedPfleger.getAktTier().getName() + " wurde von "+selectedPfleger.getName()+" gefüttert");
         delay(3000,()-> fuetternAnzeige.setText(""));
@@ -412,7 +414,6 @@ public class ZoohandlungController implements Initializable {
     }
 
     private void displayTier(Tier aktTier){
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM HH:mm:ss");
         tierLoeschen.setDisable(false);
         tierNamenAnzeige.setText(aktTier.getTyp()+": "+aktTier.getName());
         tierAlter.setText("-"+aktTier.getTyp()+" Alter: "+aktTier.getAlter());
@@ -429,14 +430,17 @@ public class ZoohandlungController implements Initializable {
             }
             try{
                 tierLabel4.setText("-Letzes mal gefüttert: ");
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM HH:mm:ss");
                 tierLabel5.setText("- "+aktTier.getZuletztGefuettert().format(myFormatObj));
             }catch(NullPointerException e){
                 tierLabel4.setText("- Wurde noch nicht gefüttert");
                 tierLabel5.setText("");
             }
         }else{
+            System.out.println(aktTier.getZuletztGefuettert());
             try{
                 tierLabel2.setText("- Letzes mal gefüttert: ");
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMM HH:mm:ss");
                 tierLabel3.setText(aktTier.getZuletztGefuettert().format(myFormatObj));
             }catch(NullPointerException e){
                 tierLabel2.setText("- Wurde noch nicht gefüttert");

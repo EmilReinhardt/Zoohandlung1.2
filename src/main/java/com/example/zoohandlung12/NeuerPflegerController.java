@@ -31,10 +31,14 @@ public class NeuerPflegerController {
     @FXML
     protected void onNeuerPfleger(){
         try{
-            ZoohandlungManager.addPfleger(new Pfleger(pflegerName.getText(), Integer.parseInt(pflegerAlter.getText()), Double.parseDouble(pflegerGehalt.getText()), maennlich));
-            Stage stage = (Stage) pflegerName.getScene().getWindow();
-            stage.close();
-            controller.aktualisierePflegerTree();
+            if (Integer.parseInt(pflegerAlter.getText()) > 0 && Double.parseDouble(pflegerGehalt.getText()) >= 0) {
+                ZoohandlungManager.addPfleger(new Pfleger(pflegerName.getText(), Integer.parseInt(pflegerAlter.getText()), Double.parseDouble(pflegerGehalt.getText()), maennlich));
+                Stage stage = (Stage) pflegerName.getScene().getWindow();
+                stage.close();
+                controller.aktualisierePflegerTree();
+            }else{
+                pflegerUngueltig.setText("ungültige Eingabe");
+            }
         }catch (NumberFormatException e){
             pflegerUngueltig.setText("ungültige Eingabe");
         }

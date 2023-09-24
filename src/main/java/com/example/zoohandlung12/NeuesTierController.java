@@ -58,11 +58,15 @@ public class NeuesTierController {
 
 
     public void onNeuerHund(){
-        try{
-            ZoohandlungManager.addTiere(new Hund(hundName.getText(), Integer.parseInt(hundAlter.getText()), Double.parseDouble(hundPreis.getText()), hundRasse.getText()));
-            Stage stage = (Stage) hundName.getScene().getWindow();
-            stage.close();
-            controller.aktualisiereTiereTree();
+        try {
+            if (Integer.parseInt(hundAlter.getText()) > 0 && Double.parseDouble(hundPreis.getText()) >= 0) {
+                ZoohandlungManager.addTiere(new Hund(hundName.getText(), Integer.parseInt(hundAlter.getText()), Double.parseDouble(hundPreis.getText()), hundRasse.getText()));
+                Stage stage = (Stage) hundName.getScene().getWindow();
+                stage.close();
+                controller.aktualisiereTiereTree();
+            }else{
+                ungueltigHund.setText("ungültige Eingabe");
+            }
         }catch (NumberFormatException e){
             ungueltigHund.setText("ungültige Eingabe");
         }
@@ -70,20 +74,28 @@ public class NeuesTierController {
     }
     public void onNeueKatze(){
         try{
-            ZoohandlungManager.addTiere(new Katze(katzeName.getText(),Integer.parseInt(katzeAlter.getText()),Double.parseDouble(katzePreis.getText()),katzeRasse.getText()));
-            Stage stage = (Stage) katzeName.getScene().getWindow();
-            stage.close();
-            controller.aktualisiereTiereTree();
+            if (Integer.parseInt(katzeAlter.getText()) > 0 && Double.parseDouble(katzePreis.getText()) >= 0) {
+                ZoohandlungManager.addTiere(new Katze(katzeName.getText(), Integer.parseInt(katzeAlter.getText()), Double.parseDouble(katzePreis.getText()), katzeRasse.getText()));
+                Stage stage = (Stage) katzeName.getScene().getWindow();
+                stage.close();
+                controller.aktualisiereTiereTree();
+            }else{
+                ungueltigKatze.setText("ungültige Eingabe");
+            }
         }catch (NumberFormatException e){
             ungueltigKatze.setText("ungültige Eingabe");
         }
     }
     public void onNeueSchlange(){
         try{
-            ZoohandlungManager.addTiere(new Schlange(schlangeName.getText(),Integer.parseInt(schlangeAlter.getText()),Double.parseDouble(schlangePreis.getText()),schlangeRasse.getText(),Double.parseDouble(schlangeLaenge.getText()),schlangeGiftig.isSelected()));
-            Stage stage = (Stage) schlangeName.getScene().getWindow();
-            stage.close();
-            controller.aktualisiereTiereTree();
+            if (Integer.parseInt(schlangeAlter.getText()) > 0 && Double.parseDouble(schlangePreis.getText()) >= 0) {
+                ZoohandlungManager.addTiere(new Schlange(schlangeName.getText(), Integer.parseInt(schlangeAlter.getText()), Double.parseDouble(schlangePreis.getText()), schlangeRasse.getText(), Double.parseDouble(schlangeLaenge.getText()), schlangeGiftig.isSelected()));
+                Stage stage = (Stage) schlangeName.getScene().getWindow();
+                stage.close();
+                controller.aktualisiereTiereTree();
+            }else{
+                ungueltigSchlange.setText("ungültige Eingabe");
+            }
         }catch (NumberFormatException e){
             ungueltigSchlange.setText("ungültige Eingabe");
         }

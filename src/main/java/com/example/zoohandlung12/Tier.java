@@ -50,11 +50,13 @@ public abstract class Tier {
 
     public abstract String getRasse();
 
-    public void setZuletztGefuettert(LocalDateTime zuletztGefuettert) {
-        this.zuletztGefuettert = zuletztGefuettert;
+    public void setZuletztGefuettert(LocalDateTime newZuletztGefuettert) {
+        zuletztGefuettert = newZuletztGefuettert;
+        System.out.println(zuletztGefuettert);
     }
 
     public LocalDateTime getZuletztGefuettert() {
+        System.out.println(zuletztGefuettert);
         return zuletztGefuettert;
     }
 
